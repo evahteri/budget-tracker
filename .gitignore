@@ -1,0 +1,10 @@
+# Logs
+logs
+*.log
+
+# env files
+.env
+
+# Dependency directories
+/backend/node_modules
+/frontend/budget-tracker/node_modules
