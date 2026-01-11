@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 let expenses = [
     {
         id: "1",
@@ -27,6 +29,24 @@ let expenses = [
 
 app.get('/api/expenses', (request, response) => {
   response.json(expenses)
+})
+
+app.post('/api/expenses', (request, response) => {
+  const newExpense = request.body
+  newExpense.id = (expenses.length + 1).toString()
+  newExpense.date = new Date().toISOString().split('T')[0]
+  expenses.push(newExpense)
+  response.status(201).json(newExpense)
+})
+
+app.put('/api/expenses/:id', (request, response) => {
+  const expense = expenses.find(e => e.id === request.params.id)
+  if (expense) {
+    Object.assign(expense, request.body)
+    response.status(200).json(expense)
+  } else {
+    response.status(404).end()
+  }
 })
 
 const PORT = 3001
