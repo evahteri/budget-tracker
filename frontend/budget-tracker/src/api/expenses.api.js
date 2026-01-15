@@ -2,9 +2,9 @@ import axios from 'axios'
 
 const baseUrl = '/api/expenses'
 
-export const getExpenses = () => {
+export const getExpenses = (category) => {
   return axios
-    .get(baseUrl)
+    .get(`${baseUrl}/${category}`)
     .then(response => {
       const expenses = response.data
       console.log('Fetched expenses:', expenses)
