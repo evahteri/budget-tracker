@@ -6,4 +6,5 @@
 | 11-01-2026 | 4   | Expenses functions for backend and FE placeholder code |
 | 15-01-2026 | 5   | Refactor project into logical components |
 | 16-01-2026 | 1   | Logging and fixing bugs left from refactor |
-| **Total** | **17** | |
+| 22-01-2026 | 3   | Filtering for expenses |
+| **Total** | **20** | |
