@@ -1,42 +1,69 @@
-import { useQuery } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getExpenses, postExpense, putExpense } from '../api/expenses.api'
+import { useState } from 'react';
 
 export function useExpenses() {
-    const expenseQuery = useQuery({
-        queryKey: ['expenses'],
-        queryFn: () => getExpenses('all'),
-    })
+    const queryClient = useQueryClient();
+    const [filter, setFilter] = useState({ category: 'all', month: 1 });
 
-    const { data: expensesData = [], isLoading, error } = expenseQuery
+    const newExpenseMutation = useMutation({
+        mutationFn: (newExpense) => postExpense(newExpense),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['expenses', filter.category, filter.month] });
+        },
+    });
 
-    const [expenses, setExpenses] = useState([])
-
-    useEffect(() => {
-        setExpenses(expensesData)
-    }, [expensesData])
+    const editExpenseMutation = useMutation({
+        mutationFn: ({ expenseId, updatedExpense }) => putExpense(expenseId, updatedExpense),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['expenses', filter.category, filter.month] });
+        },
+    });
 
     const addExpense = async (event) => {
-        event.preventDefault()
+        event.preventDefault();
 
         const newExpense = {
             description: event.target[0].value,
             category: event.target[1].value,
             amount: parseFloat(event.target[2].value),
-        }
+        };
 
-        const responseData = await postExpense(newExpense)
-        newExpense.id = responseData.id
-
-        setExpenses((prev) => [...prev, newExpense])
-    }
+        newExpenseMutation.mutate(newExpense);
+    };
 
     const editExpense = async (event) => {
-        const newExpense = event
-        newExpense.amount = parseFloat(newExpense.amount) + 10  // Just for testing
-        const responseData = await putExpense(newExpense.id, newExpense)
-        setExpenses((prev) => prev.map(exp => exp.id === newExpense.id ? responseData : exp))
+        const newExpense = event;
+        newExpense.amount = parseFloat(newExpense.amount) + 10; // Just for testing
+        editExpenseMutation.mutate({ expenseId: newExpense.id, updatedExpense: newExpense });
+    };
+
+    const applyFilterMonth = (month) => {
+        const monthMap = {
+            January: 1,
+            February: 2,
+            March: 3,
+            April: 4,
+            May: 5,
+            June: 6,
+            July: 7,
+            August: 8,
+            September: 9,
+            October: 10,
+            November: 11,
+            December: 12
+        };
+        setFilter({ category: filter.category, month: month ? monthMap[month] : null });
+    };
+
+    const applyFilterCategory = (category) => {
+        setFilter({ month: filter.month, category });
     }
+
+    const { data: expenses = [], isLoading, error } = useQuery({
+        queryKey: ['expenses', filter.category, filter.month],
+        queryFn: () => getExpenses(filter.category, filter.month),
+    });
 
     return {
         expenses,
@@ -44,5 +71,8 @@ export function useExpenses() {
         error,
         addExpense,
         editExpense,
-    }
+        applyFilterMonth,
+        applyFilterCategory,
+        filter,
+    };
 }
