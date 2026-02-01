@@ -8,3 +8,9 @@ logs
 # Dependency directories
 /backend/node_modules
 /frontend/budget-tracker/node_modules
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+/backend/infra/cdk/cdk.context.json
+
