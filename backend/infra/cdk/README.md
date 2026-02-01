@@ -1,12 +1,21 @@
-# Welcome to your CDK JavaScript project
+# Infra automation for the backend service
 
-This is a blank project for CDK development with JavaScript.
+This AWS CDK code includes the setup to run the backend application on AWS.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app. The build step is not required when using JavaScript.
+## Used services
 
-## Useful commands
+- EC2 Application Load Balancer
+- ECS cluster with Fargate instances
+- VPC 
 
-* `npm run test`         perform the jest unit tests
-* `npx cdk deploy`       deploy this stack to your default AWS account/region
-* `npx cdk diff`         compare deployed stack with current state
-* `npx cdk synth`        emits the synthesized CloudFormation template
+## How to use
+
+1. Install AWS CDK
+2. Add .env file to `backend/infra/cdk` with content:
+```
+CDK_ACCOUNT={your aws account id}
+CDK_REGION={aws region you want to deploy}
+```
+3. `cdk bootstrap`
+4. `cdk synth`
+5. `cdk deploy`

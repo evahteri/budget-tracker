@@ -1,4 +1,4 @@
-const { Stack, Duration } = require('aws-cdk-lib/core');
+const { Stack } = require('aws-cdk-lib/core');
 const { Vpc } = require('aws-cdk-lib/aws-ec2');
 const { Cluster, ContainerImage } = require('aws-cdk-lib/aws-ecs');
 const { ApplicationLoadBalancedFargateService } = require('aws-cdk-lib/aws-ecs-patterns');
@@ -29,8 +29,15 @@ class BackendStack extends Stack {
       memoryLimitMiB: 512,
       desiredCount: 1,
       taskImageOptions: {
-        image: ContainerImage.fromAsset(path.join(__dirname, '../../../')), // load from repo dockerfile instead of ECR
+        image: ContainerImage.fromAsset(path.join(__dirname, '../../../')),
         containerPort: 3001,
+        healthCheck: {
+          command: ['CMD-SHELL', 'curl -f http://localhost:3001/health || exit 1'],
+          interval: 30,
+          timeout: 5,
+          retries: 3,
+          startPeriod: 10,
+        },
       },
       publicLoadBalancer: true,
     });
