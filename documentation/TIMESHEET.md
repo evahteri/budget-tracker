@@ -7,4 +7,5 @@
 | 15-01-2026 | 5   | Refactor project into logical components |
 | 16-01-2026 | 1   | Logging and fixing bugs left from refactor |
 | 22-01-2026 | 3   | Filtering for expenses |
-| **Total** | **20** | |
+| 01-02-2026 | 5   | Setting up AWS CDK |
+| **Total** | **25** | |
