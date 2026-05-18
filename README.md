@@ -18,3 +18,9 @@ Budget Tracker is a web application which allows the user to track personal fina
 1. Run `docker compose -f docker-compose.dev.yml build`
 2. Run `docker compose -f docker-compose.dev.yml up`
 3. Navigate to `http://localhost:8080/`
+
+## Prod setup
+
+1. Run `docker compose build`
+2. Run `docker compose up`
+3. Navigate to `http://localhost:8080/`
