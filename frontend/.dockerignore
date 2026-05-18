@@ -1,0 +1,15 @@
+# Logs
+logs
+*.log
+
+# env files
+.env
+
+# Dependency directories
+node_modules
+
+# AWS CDK assets
+*/**/cdk.out
+
+# Git files
+.git

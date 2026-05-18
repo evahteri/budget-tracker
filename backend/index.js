@@ -10,8 +10,8 @@ const healthRoutes = require('./routes/health.routes');
 app.use(express.json());
 
 // Mount all routes
-app.use('/api', expensesRoutes({ logger }));
-app.use('/api', categoriesRoutes({ logger }));
+app.use('/', expensesRoutes({ logger }));
+app.use('/', categoriesRoutes({ logger }));
 app.use('/', healthRoutes({ logger }));
 
 
