@@ -14,3 +14,5 @@ logs
 cdk.out
 /backend/infra/cdk/cdk.context.json
 
+*.pem
+*.key

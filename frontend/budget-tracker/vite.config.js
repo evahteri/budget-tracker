@@ -9,6 +9,7 @@ export default defineConfig({
     tailwindcss(),
   ],
   server: {
+    allowedHosts: ['frontend', 'localhost'],
     proxy: { // for local development to avoid CORS errors
       '/api': {
         target: 'http://localhost:3001',
